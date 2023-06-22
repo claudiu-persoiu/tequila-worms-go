@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title">And your name is...</h3>
+</div>
+<form novalidate ng-submit="ok()">
+    <div class="modal-body">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="username-addon">@</span>
+            <input type="text" ng-model="name" class="form-control" placeholder="Username"
+                   aria-describedby="username-addon" ng-minlength="2" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">START</button>
+    </div>
+</form>

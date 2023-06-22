@@ -1,0 +1,73 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #efefef !important;
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    font-family: Lobster !important;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 0 auto -40px;
+}
+
+.canvas-container canvas {
+    background: #fefefe;
+    width: 100%;
+    max-width: 800px;
+}
+
+.player-name-overlay {
+    top: auto;
+    margin-top: 20px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.player-color {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.player-list {
+    float: left;
+    position: absolute;
+    top: 120px;
+}
+
+.player-list li {
+    list-style-type: none;
+    opacity: 0.5;
+}
+
+.player-logging-container {
+    position: relative;
+    vertical-align: bottom;
+    bottom: 80px;
+    display: table-cell;
+    float: right;
+}
+
+.player-logging li {
+    list-style-type: none;
+    opacity: 0.5;
+    text-align: right;
+}
+
+footer {
+    height: 40px;
+    text-align: center;
+}
