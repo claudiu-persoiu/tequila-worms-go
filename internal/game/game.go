@@ -39,6 +39,26 @@ func (g *game) Start() {
 
 		for _, w := range g.players.GetWorms() {
 			w.Step()
+
+			if checkHitTheWall(w.pieces[0], g.size) {
+				w.Kill()
+				continue
+			}
+
+			intersectBetweenWorms(w, g.players.GetWorms())
+		}
+
+		// filter dead worm
+		for uuid, w := range g.players.GetWorms() {
+			if w.IsDead() {
+				g.players.RemoveWorm(uuid)
+				g.broadcastDeadWorm(w)
+				g.sendToHub <- internal.Message{
+					UUID:   w.uuid,
+					Action: "you dead",
+					Data:   true,
+				}
+			}
 		}
 
 		g.broadcastWormsData()
@@ -57,20 +77,26 @@ func (g *game) handleMessages() {
 			fmt.Println("player disconnected", message.UUID)
 			w := g.players.RemoveWorm(message.UUID)
 			if w != nil {
-				g.sendToHub <- internal.Message{
-					UUID:   "all",
-					Action: "dead worm",
-					Data:   w.name + randomDeadMessage(),
-				}
+				g.broadcastDeadWorm(w)
 			}
 			g.broadcastWormList()
 		case "start game":
 			g.players.AddWorm(message.UUID, NewWorm(message.UUID, message.Data.(string), g.getRandomPosition()))
 
 			g.broadcastWormList()
+		case "new direction":
+			g.players.GetWorm(message.UUID).SetDirection(message.Data.(string))
 		default:
 			fmt.Println("message not handled: ", message)
 		}
+	}
+}
+
+func (g *game) broadcastDeadWorm(w *worm) {
+	g.sendToHub <- internal.Message{
+		UUID:   "all",
+		Action: "dead worm",
+		Data:   w.name + randomDeadMessage(),
 	}
 }
 

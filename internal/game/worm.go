@@ -12,6 +12,7 @@ type worm struct {
 	direction string
 	length    int
 	pieces    []piece
+	dead      bool
 }
 
 type piece struct {
@@ -36,6 +37,7 @@ func NewWorm(uuid string, name string, position piece) *worm {
 		pieces:    generatePieces(initialLength, position),
 		direction: getRandomDir(),
 		length:    minLength,
+		dead:      false,
 	}
 }
 
@@ -46,10 +48,36 @@ func (w *worm) Step() {
 	w.pieces = w.pieces[:len(w.pieces)-1]
 }
 
+func (w *worm) SetDirection(dir string) {
+	if isValidDirection(dir) && !isReversed(w.direction, dir) {
+		w.direction = dir
+	}
+}
+
 func generatePieces(size int, position piece) []piece {
 	var r []piece
 	for i := 0; i < size; i++ {
 		r = append(r, position)
 	}
 	return r
+}
+
+func (w *worm) Kill() {
+	w.dead = true
+}
+
+func (w *worm) IsDead() bool {
+	return w.dead
+}
+
+func (w *worm) AddPieces(size int) {
+	w.pieces = append(w.pieces, generatePieces(size, w.pieces[len(w.pieces)-1])...)
+}
+
+func (w *worm) RemovePieces(size int) {
+	w.pieces = w.pieces[:size]
+
+	if len(w.pieces) < minLength {
+		w.Kill()
+	}
 }

@@ -1,6 +1,8 @@
 package game
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 type direction struct {
 	X int
@@ -24,4 +26,17 @@ func getMovementByDirection(dir string) direction {
 
 func getRandomDir() string {
 	return possibleDirs[rand.Intn(len(possibleDirs))]
+}
+
+func isValidDirection(dir string) bool {
+	for _, p := range possibleDirs {
+		if p == dir {
+			return true
+		}
+	}
+	return false
+}
+
+func isReversed(oldDir, newDir string) bool {
+	return directions[oldDir].X+directions[newDir].X == 0 && directions[oldDir].Y+directions[newDir].X == 0
 }
