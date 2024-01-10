@@ -40,7 +40,7 @@ func (g *game) Start() {
 		for _, w := range g.players.GetWorms() {
 			w.Step()
 
-			if checkHitTheWall(w.pieces[0], g.size) {
+			if checkHitTheWall(w.pieces[0], g.size) || checkHitSelf(w) {
 				w.Kill()
 				continue
 			}

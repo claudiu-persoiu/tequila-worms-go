@@ -47,3 +47,14 @@ func headCrush(w, otherWorm *worm) {
 		w.AddPieces(w2l)
 	}
 }
+
+func checkHitSelf(w *worm) bool {
+	h := w.pieces[0]
+
+	for _, p := range w.pieces[1:] {
+		if piecesCollision(h, p) {
+			return true
+		}
+	}
+	return false
+}
