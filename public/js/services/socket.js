@@ -1,6 +1,6 @@
 wormApp.factory('socketService', ["socketFactory", "$window", function (socketFactory, window) {
     const socket = function () {
-        const url = "ws://127.0.0.1:3000/ws"
+        const url = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host + location.pathname}ws`
 
         let socket, socketOpened = false;
 
