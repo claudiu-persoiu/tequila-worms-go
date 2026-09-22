@@ -1,5 +1,7 @@
 package game
 
+import "strings"
+
 import "math/rand"
 
 const minLength = 3
@@ -22,11 +24,12 @@ type piece struct {
 
 func generateColor() string {
 	letters := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"}
-	r := "#"
+	var r strings.Builder
+	r.WriteString("#")
 	for i := 0; i < 6; i++ {
-		r += letters[rand.Intn(len(letters))]
+		r.WriteString(letters[rand.Intn(len(letters))])
 	}
-	return r
+	return r.String()
 }
 
 func NewWorm(uuid string, name string, position piece) *worm {
